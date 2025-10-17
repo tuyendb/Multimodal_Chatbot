@@ -1,0 +1,8 @@
+pymupdf4llm
+langgraph
+langchain-upstage
+langchain-google-genai
+langchain-chroma
+langchain-openai
+langchain-text-splitters
+cryptography>=3.1
