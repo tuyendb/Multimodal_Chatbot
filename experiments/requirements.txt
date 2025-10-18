@@ -1,5 +1,8 @@
 pymupdf4llm
+Pillow
 langgraph
+langchain
+langchain_experimental
 langchain-upstage
 langchain-google-genai
 langchain-chroma
