@@ -83,3 +83,6 @@ logs/
 debug.log
 
 # experiments/
+**/*.MP4
+**/*.wav
+**/gcs_credentials.json
