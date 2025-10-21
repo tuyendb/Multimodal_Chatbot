@@ -1,4 +1,6 @@
 import base64
+import os
+
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_chroma import Chroma
@@ -63,7 +65,12 @@ def ask_question(question: str, image_path: str = None, k: int = 3,
     image_collection = chroma_client.get_collection(name="image_vectors")
     
     # Initialize model
-    model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    model = ChatOpenAI(
+        api_key=os.getenv("OPEN_ROUTER_API_KEY"),
+        base_url="https://openrouter.ai/api/v1",
+        model="openai/gpt-4o-mini",
+        temperature=0
+    )
     
     # Search text documents
     print(f"\n🔍 Searching text documents...")
@@ -109,8 +116,8 @@ def ask_question(question: str, image_path: str = None, k: int = 3,
                       f"Distance {distance:.3f} > {max_distance} (similarity {similarity:.1f}%)")
                 continue
             
-            # ⭐ Lấy base64 từ documents (đã lưu khi index)
-            base64_data = image_results['documents'][0][i]
+            # ⭐ Lấy base64 từ metadatas (đã lưu khi index)
+            base64_data = meta.get('image_base64', '')
             
             retrieved_images.append({
                 'page': meta.get('page', '?'),
@@ -220,16 +227,16 @@ if __name__ == "__main__":
     # Define test cases
     test_cases = [
         {
-            "question": "Lượng dầu mỡ của E-axis là bao nhiêu?",
+            "question": "Lượng dầu mỡ của E-axis là bao nhiêu?, trả lời bằng tiếng Việt",
             "image_path": None
         },
         {
-            "question": "Emal của YASKAWA Customer Support là gì?",
+            "question": "Emal của YASKAWA Customer Support là gì?, trả lời bằng tiếng Việt",
             "image_path": None
         },  
         {
-            "question": "ảnh này là gì vậy bạn biết không?",
-            "image_path": "Screenshot 2025-10-17 164342.png"  # Update with actual image path
+            "question": "ảnh này là gì vậy bạn biết không?, trả lời bằng tiếng Việt",
+            "image_path": "Screenshot 2025-10-17 170459.png"  # Update with actual image path
         }
     ]
     
